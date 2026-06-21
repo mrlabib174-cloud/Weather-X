@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather X v2.1 - Ultimate Climate Dashboard</title>
+    <title>WeatherX - Ultimate Climate Dashboard</title>
+    <!-- Google Search Engine Tags -->
+    <meta name="description" content="WeatherX - Ultimate live dynamic weather dashboard and 7-day extended climate forecasting system.">
+    <meta name="keywords" content="WeatherX, Weather X, proweather, live weather, Dhaka weather">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Framework Icons -->
@@ -17,17 +21,17 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl shadow-lg">
-                    <i class="fa-solid fa-meteor text-2xl text-white"></i>
+                    <i class="fa-solid fa-cloud-sun-rain text-2xl text-white"></i>
                 </div>
                 <div>
                     <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">WEATHER X</h1>
-                    <p class="text-[10px] tracking-widest text-indigo-400 font-bold uppercase">Enterprise Station</p>
+                    <p class="text-[10px] tracking-widest text-indigo-400 font-bold uppercase">Dynamic Live Station</p>
                 </div>
             </div>
             
             <!-- Smart Search Engine -->
-            <div class="w-full md:w-auto relative flex items-center gap-2">
-                <div class="relative w-full md:w-96">
+            <div class="w-full md:w-auto relative flex flex-col sm:flex-row items-center gap-2">
+                <div class="relative w-full md:w-80">
                     <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     <input type="text" id="city-input" placeholder="Type city, state, or country..." autocomplete="off"
                         class="w-full pl-11 pr-10 py-3 bg-slate-900/90 border border-slate-800 rounded-xl focus:outline-none focus:border-indigo-500 text-sm text-white">
@@ -35,12 +39,19 @@
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
-                <button id="search-btn" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30 active:scale-95 whitespace-nowrap">
-                    Search
-                </button>
-                <button id="location-btn" title="Track My Position" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl border border-slate-800 transition-all active:scale-95">
-                    <i class="fa-solid fa-crosshairs text-indigo-400"></i>
-                </button>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button id="search-btn" class="flex-1 sm:flex-initial bg-indigo-600 hover:bg-indigo-500 px-5 py-3 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30 active:scale-95 whitespace-nowrap">
+                        Search
+                    </button>
+                    <button id="location-btn" title="Track My Position" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl border border-slate-800 transition-all active:scale-95">
+                        <i class="fa-solid fa-crosshairs text-indigo-400 animate-pulse"></i>
+                    </button>
+                    <!-- Time Format Control Selector -->
+                    <select id="time-format" class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs font-bold text-slate-300 focus:outline-none focus:border-indigo-500">
+                        <option value="12">12-Hour</option>
+                        <option value="24">24-Hour</option>
+                    </select>
+                </div>
 
                 <!-- Dynamic Autocomplete Suggestions Dropdown -->
                 <div id="suggestions-box" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden z-50 hidden divide-y divide-slate-800/60">
@@ -63,30 +74,34 @@
     </div>
 
     <!-- Central Loader Matrix -->
-    <div id="loading" class="hidden flex flex-col items-center justify-center py-40 gap-4">
+    <div id="loading" class="flex flex-col items-center justify-center py-40 gap-4">
         <div class="relative w-16 h-16">
             <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
             <div class="absolute inset-0 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
-        <p class="text-slate-400 text-xs tracking-widest uppercase font-semibold animate-pulse">Syncing Global Weather Matrix...</p>
+        <p class="text-slate-400 text-xs tracking-widest uppercase font-semibold animate-pulse">Checking GPS & Weather Matrices...</p>
     </div>
 
-    <!-- Main Dashboard Engine UI -->
+    <!-- Main Dashboard Engine UI (Fully Adaptive Desktop vs Mobile View Layout) -->
     <main id="dashboard-content" class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 hidden">
         
-        <!-- Left Wing: Current Data -->
-        <section class="lg:col-span-4 flex flex-col gap-6">
+        <!-- Left Wing: Current Data (Closes into Single View Column on Mobile Devices) -->
+        <section class="lg:col-span-4 flex flex-col gap-6 w-full">
             <div class="bg-slate-900/40 border border-slate-800 backdrop-blur-xl rounded-3xl p-6 flex flex-col justify-between shadow-xl relative overflow-hidden">
                 <div>
                     <div class="flex justify-between items-start">
                         <div>
                             <h2 id="location-name" class="text-3xl font-black tracking-tight text-white">---</h2>
-                            <p id="current-date" class="text-xs text-slate-400 mt-1 font-medium">---</p>
+                            <!-- Country Live Time Indicator Box -->
+                            <div class="mt-1 flex flex-col gap-0.5">
+                                <p id="current-date" class="text-xs text-slate-400 font-medium">---</p>
+                                <p id="country-time" class="text-sm text-indigo-400 font-mono font-bold">Local Time: --:-- --</p>
+                            </div>
                         </div>
                         <span id="country-code" class="bg-indigo-950/80 text-indigo-400 border border-indigo-500/30 text-[10px] font-bold px-3 py-1 rounded-md uppercase tracking-widest">--</span>
                     </div>
 
-                    <div class="my-12 flex items-center justify-between">
+                    <div class="my-10 flex items-center justify-between">
                         <div>
                             <div class="flex items-start">
                                 <span id="main-temp" class="text-7xl font-black tracking-tighter text-white">0</span>
@@ -96,6 +111,12 @@
                         </div>
                         <img id="weather-icon" src="" alt="Icon" class="w-24 h-24 object-contain">
                     </div>
+                </div>
+
+                <!-- Custom Dynamic Simplified Weather Text Box -->
+                <div id="weather-condition-insight" class="mb-6 p-4 rounded-xl bg-indigo-950/30 border border-indigo-500/20 text-xs font-semibold text-indigo-300 flex items-center gap-3">
+                    <i class="fa-solid fa-circle-info text-base text-indigo-400"></i>
+                    <span id="insight-text">Analyzing atmospheric configurations...</span>
                 </div>
 
                 <div class="border-t border-slate-800/80 pt-6 grid grid-cols-2 gap-3">
@@ -127,9 +148,9 @@
         </section>
 
         <!-- Right Wing: Analytics & Forecast Matrix -->
-        <section class="lg:col-span-8 flex flex-col gap-6">
+        <section class="lg:col-span-8 flex flex-col gap-6 w-full">
             
-            <!-- Analytics Cards Grid -->
+            <!-- Analytics Cards Grid (Changes auto structure across Mobile Viewports) -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="bg-slate-900/30 border border-slate-800/80 p-4 rounded-2xl flex flex-col justify-between">
                     <div class="flex items-center justify-between text-slate-500">
@@ -185,7 +206,7 @@
                         </div>
                         <div>
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Air Quality Index (AQI)</h4>
-                            <p id="aqi-status" class="text-sm font-semibold text-emerald-400 mt-0.5">Loading...</p>
+                            <p id="aqi-status" class="text-sm font-semibold text-emerald-400 mt-0.5">Loading State...</p>
                         </div>
                     </div>
                     <span id="aqi-badge" class="bg-emerald-950 text-emerald-400 px-3 py-1 rounded-md text-xs font-black border border-emerald-500/30">--</span>
@@ -218,10 +239,9 @@
     </main>
 
     <footer class="mt-24 border-t border-slate-900 py-8 text-center text-[11px] text-slate-600 font-mono tracking-wider">
-        <p>PROWEATHER SYSTEMS ENGINE V2.2 // AUTHENTIC CLIMATE API CONTROL</p>
+        <p>WEATHER X ENGINE SYSTEMS // GLOBAL REALTIME CLIMATE CONTROL</p>
     </footer>
 
-    <!-- স্ক্রিনশটের সাথে মিলিয়ে ফাইলের নাম script.js লিংক করা হলো -->
     <script src="script.js"></script>
 </body>
 </html>

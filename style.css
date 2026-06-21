@@ -1,86 +1,47 @@
-/* Custom Scrollbar for premium look */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+/* Custom Axis Horizonal Scroller Style Framework */
+.custom-scroll::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.3);
+    border-radius: 8px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 8px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #4f46e5;
 }
 
-::-webkit-scrollbar-track {
-    background: #0f172a; 
-}
- 
-::-webkit-scrollbar-thumb {
-    background: #334155; 
-    border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #4f46e5; 
-}
-
-/* Keyframe Animations */
-@keyframes fadeIn {
+/* Animations engine */
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(12px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
-
 .animate-fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Glassmorphism custom backup utilities */
-.backdrop-blur-md {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
-
-/* Smooth transition for active dashboard appearance */
-#dashboard-content {
-    transition: all 0.5s ease-in-out;
-}
-/* Premium Custom Horizontal & Vertical Axis Scroll Design */
-.custom-scroll::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-}
-
-.custom-scroll::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.3);
-    border-radius: 8px;
-}
-
-.custom-scroll::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 8px;
-}
-
-.custom-scroll::-webkit-scrollbar-thumb:hover {
-    background: #4f46e5;
-}
-
-/* Animations Configurations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(14px) scale(0.99);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.animate-fade-in {
-    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Custom Autocomplete Selection Styling overrides */
-.suggestion-item.active, .suggestion-item:hover {
+.suggestion-item:hover {
     background: rgba(79, 70, 229, 0.15) !important;
     border-left: 4px solid #4f46e5;
+}
+
+/* Adaptive Display Screen Mode Fixes (Instagram Architecture Adaptation) */
+@media (max-width: 1024px) {
+    main {
+        grid-template-cols: 1fr !important;
+    }
+    #weather-icon {
+        width: 4rem !important;
+        height: 4rem !important;
+    }
 }
